@@ -40,3 +40,4 @@ void loop(){
   Serial.print("Humidity: ");
   Serial.println(humVal);
 }
+ 
