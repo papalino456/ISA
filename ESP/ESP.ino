@@ -14,7 +14,7 @@ float humVal;
 //connection variables
 const char* ssid = "HALL9000";
 const char* password = "ANIROC1966";
-const char* server = "172.69.170.138:1234";
+const char* server = "http://192.168.100.35:1234/";
 
 //Temperature sensor setup --DS18B20--
 OneWire sensor(tempSensor);

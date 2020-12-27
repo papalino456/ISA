@@ -15,10 +15,12 @@ app.listen(port, () => {
 app.post("/",function(req,res){
     //handle data recieving and saving from esp (still missing data sending in that part)
     text = req.body;
+    console.log("data recieved");
     res.end();
 });
 
 app.get("/",function(req,res){
     //show data to user entering via web browser, won't be using get in esp
     res.send(`data is: ${text}`);
+    console.log("get request made")
 });
