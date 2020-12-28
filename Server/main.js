@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 let app = express();
 
 app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.text());// for parsing application/plain text
 
 var port = 1234;
 var text;
@@ -19,7 +19,7 @@ app.post("/",function(req,res){
     res.end();
 });
 
-app.get("/",function(req,res){
+app.get("/", async(req,res)=>{
     //show data to user entering via web browser, won't be using get in esp
     res.send(`data is: ${text}`);
     console.log("get request made")

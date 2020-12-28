@@ -65,7 +65,7 @@ void loop(){
     http.addHeader("Content-Type","text/plain");
 
     //data send
-    int httpResCode = http.POST("Hello World!!!!1");
+    int httpResCode = http.POST(String(tempVal));
 
     //await response code (200 ok, 404 not found, etc...)
     Serial.print("HTTP Response code: ");
