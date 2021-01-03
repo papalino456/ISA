@@ -45,15 +45,16 @@ void loop(){
   // Get temperature values
   temperature.requestTemperatures();
   tempVal = temperature.getTempCByIndex(0);
-  
+ 
   // Get humidity values
-  humVal = analogRead(humSensor);
+  humVal = map(analogRead(humSensor),1700,4095,100,0);
 
   // Print to serial port
   Serial.print("Temperature: ");
   Serial.println(tempVal);
   Serial.print("Humidity: ");
-  Serial.println(humVal);
+  Serial.print(humVal);
+  Serial.println("%");
 
   //Send to server via http post command
   if(WiFi.status() == WL_CONNECTED) {
@@ -78,7 +79,7 @@ void loop(){
     Serial.println("not connected");
   }
 
-  delay(1000);
+  delay(500);
   
 }
  
