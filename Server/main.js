@@ -5,8 +5,6 @@ let app = express();
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.text());// for parsing application/plain text
 
-app.use(express.static("FrontEnd"));
-app.engine('html', require('ejs').renderFile);
 
 var port = 1234;
 var text;
@@ -16,17 +14,18 @@ app.listen(port, () => {
 });
 
 app.post("/",function(req,res){
-    //handle data recieving and saving from esp (still missing data sending in that part)
+    //handle data recieving and saving from esp (still missing ddata sending in that part)
     text = req.body;
     console.log("data recieved");
     res.end();
 });
 
+app.get("/data",function(req, res){
+    res.send(text);
+});
+
 app.get("/", function(req,res){
     //show data to user entering via web browser, won't be using get in esp
-    setInterval(() => {
-        res.render("main.html", {text: text}); 
-    },1000);
-
-
+    res.sendFile(__dirname + '/views/main.html'); 
+    console.log("get request made")
 });
