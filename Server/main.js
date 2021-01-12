@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 let app = express();
 
 app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.text());// for parsing application/plain text
+//app.use(bodyParser.text());// for parsing application/plain text
 
 
 var port = 1234;
@@ -17,6 +17,7 @@ app.post("/",function(req,res){
     //handle data recieving and saving from esp (still missing ddata sending in that part)
     text = req.body;
     console.log("data recieved");
+    console.log(req.body)
     res.end();
 });
 
