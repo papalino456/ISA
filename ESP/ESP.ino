@@ -63,10 +63,10 @@ void loop(){
     http.begin(server);
 
     //specify content type
-    http.addHeader("Content-Type","text/plain");
+    http.addHeader("Content-Type", "application/json");
 
     //data send
-    int httpResCode = http.POST(String(tempVal));
+    int httpResCode = http.POST("{\"temp\":\"" + String(tempVal) + "\",\"hum\":\"" + String(humVal) + "\"}");
 
     //await response code (200 ok, 404 not found, etc...)
     Serial.print("HTTP Response code: ");
