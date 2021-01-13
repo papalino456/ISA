@@ -1,31 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISA dasboard</title>
+</head>
+<body>
+    <div class="demo">
+        <h1 id="title">Temperature</h1>
+        <h1 id="title2">Humidity</h1>
+        <h2 id="stateMsg"></h2>
+    </div>
 
-<div id="demo">
-<h1 id="title">The XMLHttpRequest Object</h1>
-<h1 id="title2">The XMLHttpRequest Object</h1>
-</div>
+    <script>
+        setInterval(function() {
 
-<script>
-setInterval(function() {
+        console.log("button clicked");
+        //repeat for more data changing
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("title").innerText = JSON.parse(this.responseText).temp;
+            }   
+        };
+        xhttp.open("GET", "/data", true);
+        xhttp.send();
+        //up to here
 
-    console.log("button clicked");
-    //repeat for more data changing
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("title").innerText = JSON.parse(this.responseText).temp;
-        }   
-    };
-    xhttp.open("GET", "/data", true);
-    xhttp.send();
-    //up to here
+        var xhttp2 = new XMLHttpRequest();
+        xhttp2.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("title2").innerText = JSON.parse(this.responseText).hum;
+            }   
+        };
+        xhttp2.open("GET", "/data", true);
+        xhttp2.send();
 
-    var xhttp2 = new XMLHttpRequest();
-    xhttp2.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("title2").innerText = JSON.parse(this.responseText).hum;
-        }   
-    };
-    xhttp2.open("GET", "/data", true);
-    xhttp2.send();
-},500);
-</script>
+        var xhttp3 = new XMLHttpRequest();
+        xhttp3.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("stateMsg").innerText =this.responseText;
+            }   
+        };
+        xhttp3.open("GET", "/msg", true);
+        xhttp3.send();
+    },500);
+    </script>
+    <style>
+        .body{
+            background-color:aliceblue;
+        }
+        .demo{
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: aquamarine;
+            border-radius: 10%;
+        }
+    </style>
+</body>
+</html>
