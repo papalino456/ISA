@@ -5,7 +5,14 @@
 
 //pin variables
 const int humSensor = 35;
-const int tempSensor = 12;
+const int waterSensor = 12;
+const int tempSensor = 13;
+const int led1 = 25;
+const int led2 = 26;
+const int led3 = 27;
+const int pumpPin = 14;
+
+
 
 //variables setup
 float tempVal;
