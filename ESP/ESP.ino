@@ -12,11 +12,10 @@ const int led2 = 26;
 const int led3 = 27;
 const int pumpPin = 14;
 
-
-
 //variables setup
 float tempVal;
 float humVal;
+bool bEnoughWater;
 
 //connection variables
 const char* ssid = "HALL9000";
@@ -44,6 +43,7 @@ void setup(){
   }
   Serial.print("connected!, ip:");
   Serial.println(WiFi.localIP());
+  digitalWrite(led1, HIGH);
   
 }
 
@@ -79,11 +79,67 @@ void loop(){
     Serial.print("HTTP Response code: ");
     Serial.println(httpResCode);
 
+    //check water level, turn on state LED and send message to server
+    if(analogRead(waterSensor) <= 10){
+      digitalWrite(led3, HIGH);
+      bEnoughWater = false;
+      http.begin(server + "msg")
+      http.addHeader("Content-Type", "text/plain");
+      int httpResCode2 = http.POST("Low water please refill");
+    }
+
+    //check water level, turn off state LED and send message to server
+    if(analogRead(waterSensor) >= 10){
+      digitalWrite(led3, LOW);
+      bEnoughWater = true;
+      http.begin(server + "msg")
+      http.addHeader("Content-Type", "text/plain");
+      int httpResCode2 = http.POST("");
+    }
+
+    //turn on pump and state led's for watering
+    if(((humval <= 25 && tempVal >= 15)||(tempVal >= 25 && humVal <= 40)||(tempVal >= 35)) && (bEnoughWater == true)){
+      digitalWrite(pumpPin, HIGH);
+      digitalWrite(led2, HIGH);
+
+      delay(2000);
+
+      digitalWrite(pumpPin, LOW);
+      digitalWrite(led2, HIGH);
+
+    }
+
+
     //release resources
     http.end();
   }
   else {
     Serial.println("not connected");
+
+    //check water level, turn on state LED and send message to server
+    if(analogRead(waterSensor) <= 10){
+      digitalWrite(led3, HIGH);
+      bEnoughWater = false;
+    }
+
+    //check water level, turn off state LED and send message to server
+    if(analogRead(waterSensor) >= 10){
+      digitalWrite(led3, LOW);
+      bEnoughWater = true;
+    }
+
+    //turn on pump and state led's for watering
+    if(((humval <= 25 && tempVal >= 15)||(tempVal >= 25 && humVal <= 40)||(tempVal >= 35)) && (bEnoughWater == true)){
+      digitalWrite(pumpPin, HIGH);
+      digitalWrite(led2, HIGH);
+
+      delay(2000);
+
+      digitalWrite(pumpPin, LOW);
+      digitalWrite(led2, HIGH);
+
+    }
+
   }
 
   delay(500);
