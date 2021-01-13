@@ -8,17 +8,28 @@ app.use(bodyParser.json()); // for parsing application/json
 
 var port = 1234;
 var text;
+var stateMsg;
 
 app.listen(port, () => {
     console.log(`Example app listening at port ${port}`);
 });
 
 app.post("/",function(req,res){
-    //handle data recieving and saving from esp (still missing ddata sending in that part)
+    //handle data recieving and saving from esp
     text = req.body;
     console.log("data recieved");
     console.log(req.body)
     res.end();
+});
+
+app.post("/msg", function(req, res){
+    stateMsg = req.body;
+    console.log("msg recieved")
+    res.end();
+});
+
+app.get("/msg",function(req, res){
+    res.send(stateMsg);
 });
 
 app.get("/data",function(req, res){
