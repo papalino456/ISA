@@ -5,7 +5,7 @@
 
 //pin variables
 const int humSensor = 35;
-const int waterSensor = 12;
+const int waterSensor = 34;
 const int tempSensor = 13;
 const int led1 = 25;
 const int led2 = 26;
@@ -20,7 +20,7 @@ bool bEnoughWater;
 //connection variables
 const char* ssid = "HALL9000";
 const char* password = "ANIROC1966";
-const char* server = "http://192.168.100.35:1234/";
+const String server = "http://192.168.100.35:1234/";
 
 //Temperature sensor setup --DS18B20--
 OneWire sensor(tempSensor);
@@ -29,11 +29,16 @@ DallasTemperature temperature(&sensor);
 
 void setup(){
 
-  //Humidity sensor
+  //sensor setup
   pinMode(humSensor, INPUT);
-
-  //Temperature sensor
   pinMode(tempSensor, INPUT);
+  pinMode(waterSensor, INPUT);
+
+  //actuator setup
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+  pinMode(led3, OUTPUT);
+  pinMode(pumpPin, OUTPUT);
 
   Serial.begin(9600);
   WiFi.begin(ssid, password);
@@ -57,11 +62,17 @@ void loop(){
   humVal = map(analogRead(humSensor),1700,4095,100,0);
 
   // Print to serial port
-  Serial.print("Temperature: ");
-  Serial.println(tempVal);
-  Serial.print("Humidity: ");
+  Serial.print("Temperature:");
+  Serial.print(tempVal);
+  Serial.print(",");
+  Serial.print("Humidity:");
   Serial.print(humVal);
-  Serial.println("%");
+  Serial.print(",");
+  Serial.print("WaterLevel:");
+  Serial.print(analogRead(waterSensor));
+  Serial.print(",");
+  Serial.println();
+  
 
   //Send to server via http post command
   if(WiFi.status() == WL_CONNECTED) {
@@ -76,37 +87,38 @@ void loop(){
     int httpResCode = http.POST("{\"temp\":\"" + String(tempVal) + "\",\"hum\":\"" + String(humVal) + "\"}");
 
     //await response code (200 ok, 404 not found, etc...)
-    Serial.print("HTTP Response code: ");
-    Serial.println(httpResCode);
+    //Serial.print("HTTPResponsecode: ");
+    //Serial.println(httpResCode);
 
     //check water level, turn on state LED and send message to server
     if(analogRead(waterSensor) <= 10){
       digitalWrite(led3, HIGH);
       bEnoughWater = false;
-      http.begin(server + "msg")
-      http.addHeader("Content-Type", "text/plain");
-      int httpResCode2 = http.POST("Low water please refill");
+      http.begin(server + "msg");
+      http.addHeader("Content-Type", "application/json");
+      int httpResCode2 = http.POST("{\"msg\":\"Low water level please refill\"}");
     }
 
     //check water level, turn off state LED and send message to server
     if(analogRead(waterSensor) >= 10){
       digitalWrite(led3, LOW);
       bEnoughWater = true;
-      http.begin(server + "msg")
-      http.addHeader("Content-Type", "text/plain");
-      int httpResCode2 = http.POST("");
+      http.begin(server + "msg");
+      http.addHeader("Content-Type", "application/json");
+      int httpResCode2 = http.POST("{\"msg\":\"full\"}");
     }
 
     //turn on pump and state led's for watering
-    if(((humval <= 25 && tempVal >= 15)||(tempVal >= 25 && humVal <= 40)||(tempVal >= 35)) && (bEnoughWater == true)){
+    if(((humVal <= 25 && tempVal >= 15)||(tempVal >= 25 && humVal <= 40)||(tempVal >= 35)) && (bEnoughWater == true)){
       digitalWrite(pumpPin, HIGH);
       digitalWrite(led2, HIGH);
-
+      //Serial.println("watering.....");
+      
       delay(2000);
 
       digitalWrite(pumpPin, LOW);
-      digitalWrite(led2, HIGH);
-
+      digitalWrite(led2, LOW);
+      //Serial.println("done watering");
     }
 
 
@@ -129,7 +141,7 @@ void loop(){
     }
 
     //turn on pump and state led's for watering
-    if(((humval <= 25 && tempVal >= 15)||(tempVal >= 25 && humVal <= 40)||(tempVal >= 35)) && (bEnoughWater == true)){
+    if(((humVal <= 25 && tempVal >= 15)||(tempVal >= 25 && humVal <= 40)||(tempVal >= 35)) && (bEnoughWater == true)){
       digitalWrite(pumpPin, HIGH);
       digitalWrite(led2, HIGH);
 

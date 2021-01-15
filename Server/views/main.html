@@ -9,7 +9,7 @@
     <div class="demo">
         <h1 id="title">Temperature</h1>
         <h1 id="title2">Humidity</h1>
-        <h2 id="stateMsg"></h2>
+        <h3 class="stateMsg", id="stateMsg"></h2>
     </div>
 
     <script>
@@ -39,7 +39,7 @@
         var xhttp3 = new XMLHttpRequest();
         xhttp3.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("stateMsg").innerText =this.responseText;
+                document.getElementById("stateMsg").innerText = JSON.parse(this.responseText).msg;
             }   
         };
         xhttp3.open("GET", "/msg", true);
@@ -53,11 +53,19 @@
         .demo{
             margin: 0;
             position: absolute;
+            width: 250px;
+            height: 250px;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: aquamarine;
-            border-radius: 10%;
+            border-radius: 100%;
+            text-align: center;
+            align-items: center;
+        }
+        .stateMsg{
+            color: darkgray;
+            margin-top: 50px;
         }
     </style>
 </body>

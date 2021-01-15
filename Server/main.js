@@ -25,6 +25,7 @@ app.post("/",function(req,res){
 app.post("/msg", function(req, res){
     stateMsg = req.body;
     console.log("msg recieved")
+    console.log(stateMsg)
     res.end();
 });
 
