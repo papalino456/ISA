@@ -114,7 +114,7 @@ void loop(){
       digitalWrite(led2, HIGH);
       //Serial.println("watering.....");
       
-      delay(2000);
+      delay(3000);
 
       digitalWrite(pumpPin, LOW);
       digitalWrite(led2, LOW);

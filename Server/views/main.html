@@ -7,10 +7,12 @@
 </head>
 <body>
     <div class="demo">
+        <h2>Temperature</h2>
         <h1 id="title">Temperature</h1>
+        <h2>Humidity</h2>
         <h1 id="title2">Humidity</h1>
-        <h3 class="stateMsg", id="stateMsg"></h2>
     </div>
+    <h3 class="stateMsg", id="stateMsg"></h2>
 
     <script>
         setInterval(function() {
@@ -59,13 +61,17 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: aquamarine;
-            border-radius: 100%;
+            border-radius: 10%;
             text-align: center;
             align-items: center;
         }
         .stateMsg{
-            color: darkgray;
-            margin-top: 50px;
+            color:blue;
+            margin: 0;
+            position: absolute;
+            top: 75%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
     </style>
 </body>
