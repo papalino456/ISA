@@ -19,7 +19,7 @@ bool bEnoughWater;
 
 //connection variables
 const char* ssid = "HALL9000";
-const char* password = "ANIROC1966";
+const char* password = "ANIROC196";
 const String server = "http://192.168.100.35:1234/";
 
 //Temperature sensor setup --DS18B20--
@@ -42,14 +42,14 @@ void setup(){
 
   Serial.begin(9600);
   WiFi.begin(ssid, password);
-  while(WiFi.status() != WL_CONNECTED) {
+  int count = 0;
+  while((WiFi.status() != WL_CONNECTED) && count <= 10) {
     delay(500);
     Serial.println(".");
+    count++;
   }
   Serial.print("connected!, ip:");
-  Serial.println(WiFi.localIP());
-  digitalWrite(led1, HIGH);
-  
+  Serial.println(WiFi.localIP());  
 }
 
 void loop(){
@@ -76,10 +76,11 @@ void loop(){
 
   //Send to server via http post command
   if(WiFi.status() == WL_CONNECTED) {
+      digitalWrite(led1, HIGH);
     //begin conection to server
     HTTPClient http;
     http.begin(server);
-
+    
     //specify content type
     http.addHeader("Content-Type", "application/json");
 
@@ -112,15 +113,14 @@ void loop(){
     if(((humVal <= 25 && tempVal >= 15)||(tempVal >= 25 && humVal <= 40)||(tempVal >= 35)) && (bEnoughWater == true)){
       digitalWrite(pumpPin, HIGH);
       digitalWrite(led2, HIGH);
-      //Serial.println("watering.....");
+      Serial.println("watering.....");
       
       delay(3000);
 
       digitalWrite(pumpPin, LOW);
       digitalWrite(led2, LOW);
-      //Serial.println("done watering");
+      Serial.println("done watering");
     }
-
 
     //release resources
     http.end();
@@ -148,7 +148,7 @@ void loop(){
       delay(2000);
 
       digitalWrite(pumpPin, LOW);
-      digitalWrite(led2, HIGH);
+      digitalWrite(led2, LOW);
 
     }
 

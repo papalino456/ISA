@@ -10,7 +10,7 @@ var port = 1234;
 var text;
 var stateMsg;
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
     console.log(`Example app listening at port ${port}`);
 });
 
