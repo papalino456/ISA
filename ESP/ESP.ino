@@ -15,17 +15,21 @@ const int pumpPin = 14;
 //variables setup
 float tempVal;
 float humVal;
+float waterLvl;
 bool bEnoughWater;
 
 //connection variables
 const char* ssid = "HALL9000";
-const char* password = "ANIROC196";
-const String server = "http://192.168.100.35:1234/";
+const char* password = "ANIROC1966";
+const String server = "https://sb-isa.herokuapp.com/";
 
 //Temperature sensor setup --DS18B20--
 OneWire sensor(tempSensor);
 DallasTemperature temperature(&sensor);
 //------------------------------------
+
+
+//MAKE BLUETOOTH CONECTIONS AND RECIEVE PASSWORD
 
 void setup(){
 
@@ -38,15 +42,16 @@ void setup(){
   pinMode(led1, OUTPUT);
   pinMode(led2, OUTPUT);
   pinMode(led3, OUTPUT);
-  pinMode(pumpPin, OUTPUT);
+  pinMode(pumpPin, OUTPUT); 
 
+  digitalWrite(pumpPin, LOW);
   Serial.begin(9600);
   WiFi.begin(ssid, password);
   int count = 0;
   while((WiFi.status() != WL_CONNECTED) && count <= 10) {
     delay(500);
     Serial.println(".");
-    count++;
+    count++;  
   }
   Serial.print("connected!, ip:");
   Serial.println(WiFi.localIP());  
@@ -60,7 +65,7 @@ void loop(){
  
   // Get humidity values
   humVal = map(analogRead(humSensor),1700,4095,100,0);
-
+  waterLvl = map(analogRead(waterSensor),0,4095,0,100);
   // Print to serial port
   Serial.print("Temperature:");
   Serial.print(tempVal);
@@ -69,7 +74,7 @@ void loop(){
   Serial.print(humVal);
   Serial.print(",");
   Serial.print("WaterLevel:");
-  Serial.print(analogRead(waterSensor));
+  Serial.print(waterLvl);
   Serial.print(",");
   Serial.println();
   
@@ -83,30 +88,30 @@ void loop(){
     
     //specify content type
     http.addHeader("Content-Type", "application/json");
-
+    
     //data send
-    int httpResCode = http.POST("{\"temp\":\"" + String(tempVal) + "\",\"hum\":\"" + String(humVal) + "\"}");
+    int httpResCode = http.POST("{\"temp\":\"" + String(tempVal) + "\",\"hum\":\"" + String(humVal) + "\",\"lvl\":\"" + String(waterLvl) + "\"}");
 
     //await response code (200 ok, 404 not found, etc...)
     //Serial.print("HTTPResponsecode: ");
     //Serial.println(httpResCode);
 
     //check water level, turn on state LED and send message to server
-    if(analogRead(waterSensor) <= 10){
+    if(waterLvl <= 10){
       digitalWrite(led3, HIGH);
       bEnoughWater = false;
       http.begin(server + "msg");
       http.addHeader("Content-Type", "application/json");
-      int httpResCode2 = http.POST("{\"msg\":\"Low water level please refill\"}");
+      int httpResCode2 = http.POST("{\"msg\":\"Low\"}");
     }
 
     //check water level, turn off state LED and send message to server
-    if(analogRead(waterSensor) >= 10){
+    if(waterLvl >= 10){
       digitalWrite(led3, LOW);
       bEnoughWater = true;
       http.begin(server + "msg");
       http.addHeader("Content-Type", "application/json");
-      int httpResCode2 = http.POST("{\"msg\":\"full\"}");
+      int httpResCode2 = http.POST("{\"msg\":\"" + String(waterLvl) + "\"}");
     }
 
     //turn on pump and state led's for watering
@@ -115,7 +120,7 @@ void loop(){
       digitalWrite(led2, HIGH);
       Serial.println("watering.....");
       
-      delay(3000);
+      delay(2000);
 
       digitalWrite(pumpPin, LOW);
       digitalWrite(led2, LOW);
@@ -129,13 +134,13 @@ void loop(){
     Serial.println("not connected");
 
     //check water level, turn on state LED and send message to server
-    if(analogRead(waterSensor) <= 10){
+    if(waterLvl <= 10){
       digitalWrite(led3, HIGH);
       bEnoughWater = false;
     }
 
     //check water level, turn off state LED and send message to server
-    if(analogRead(waterSensor) >= 10){
+    if(waterLvl >= 10){
       digitalWrite(led3, LOW);
       bEnoughWater = true;
     }
