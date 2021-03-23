@@ -39,12 +39,13 @@ class App extends Component {
       this.intervalID = setTimeout(this.getData.bind(this), 1000);
     })
   }
-
+//---------------->>>>>>>>>>>>{ this.state.temp } para mostrar temperatura <<<<<<<<<<<<<<--------------
 
   render(){
     return (
       <ImageBackground  source={require('./IMG_0534.png')} style={styles.container}>
         <View style={styles.border}>
+        <View style={styles.gauge}>
           <AnimatedCircularProgress
             size={250}
             width={10}
@@ -60,7 +61,8 @@ class App extends Component {
                 <AnimatedCircularProgress
                 size={220}
                 width={10}
-                fill={parseInt(this.state.temp)}
+                fill={29
+                }//parseInt(this.state.temp)
                 tintColor="#00FF8B"
                 backgroundColor="#3d5875"
                 rotation={225}
@@ -71,19 +73,18 @@ class App extends Component {
                   (fill) => (
                     <View>
                     <Text style={styles.text}> { this.state.hum*1 } % </Text>
-                    <Text style={styles.text1}> { this.state.temp  }°  </Text>
+                    <Text style={styles.text1}>27.00°</Text> 
                     </View>
                   )
                 }
               </AnimatedCircularProgress>
               )
             }
+            
           </AnimatedCircularProgress>
           <Icon style={styles.text2} name={"tint"}> {level}</Icon>
+          </View>
           <StatusBar style="auto" />
-          <TouchableOpacity
-          
-          />
         </View>
       </ImageBackground>
     );
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
   },
   text2:{
     position: "absolute",
-    bottom: 240,
+    bottom: 20,
     borderRadius:10,
     backgroundColor:"#ffffff",
     fontSize: 25,
@@ -144,6 +145,17 @@ const styles = StyleSheet.create({
     fontSize: 70,
   },
   button:{
-    backgroundColor:"#ffffff"
+    position:"absolute",
+    color:"#CCD1D1",
+    
+  },
+  gauge:{
+    borderRadius:10,
+    backgroundColor:"#ffffff",
+    fontSize: 50,
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems:"center",
+    width:400,
   },
 });
