@@ -1,10 +1,12 @@
 let express = require("express");
 var bodyParser = require('body-parser');
+const { static } = require("express");
 let app = express();
 
 app.use(bodyParser.json()); // for parsing application/json
 //app.use(bodyParser.text());// for parsing application/plain text
 
+app.use(express.static('views'));
 
 var port = 1234;
 var text;
