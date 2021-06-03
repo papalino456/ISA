@@ -9,7 +9,7 @@
     <h1 class="Front" style="text-align: center; color: white; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-size: 72px;">ISA</h1>
     <div class="demo">
         <h2>Temperature</h2>
-        <h1 id="title">Temperature</h1>
+        <h1 id="title">19°</h1>
         <h2>Humidity</h2>
         <h1 id="title2">Humidity</h1>
     </div>
@@ -20,14 +20,14 @@
 
         console.log("button clicked");
         //repeat for more data changing
-        var xhttp = new XMLHttpRequest();
+        /*var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById("title").innerText = JSON.parse(this.responseText).temp;
             }   
         };
         xhttp.open("GET", "/data", true);
-        xhttp.send();
+        xhttp.send();*/
         //up to here
 
         var xhttp2 = new XMLHttpRequest();
