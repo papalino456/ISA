@@ -19,8 +19,8 @@ float waterLvl;
 bool bEnoughWater;
 
 //connection variables
-const char* ssid = "HALL9000";
-const char* password = "ANIROC1966";
+const char *ssid = "HALL9000";
+const char *password = "ANIROC1966";
 const String server = "https://sb-isa.herokuapp.com/";
 
 //Temperature sensor setup --DS18B20--
@@ -28,10 +28,10 @@ OneWire sensor(tempSensor);
 DallasTemperature temperature(&sensor);
 //------------------------------------
 
-
 //MAKE BLUETOOTH CONECTIONS AND RECIEVE PASSWORD
 
-void setup(){
+void setup()
+{
 
   //sensor setup
   pinMode(humSensor, INPUT);
@@ -42,30 +42,31 @@ void setup(){
   pinMode(led1, OUTPUT);
   pinMode(led2, OUTPUT);
   pinMode(led3, OUTPUT);
-  pinMode(pumpPin, OUTPUT); 
+  pinMode(pumpPin, OUTPUT);
 
   digitalWrite(pumpPin, LOW);
   Serial.begin(9600);
   WiFi.begin(ssid, password);
   int count = 0;
-  while((WiFi.status() != WL_CONNECTED) && count <= 10) {
+  while ((WiFi.status() != WL_CONNECTED) && count <= 10)
+  {
     delay(500);
     Serial.println(".");
-    count++;  
+    count++;
   }
   Serial.print("connected!, ip:");
-  Serial.println(WiFi.localIP());  
+  Serial.println(WiFi.localIP());
 }
 
-void loop(){
-
+void loop()
+{
   // Get temperature values
   temperature.requestTemperatures();
   tempVal = temperature.getTempCByIndex(0);
- 
+
   // Get humidity values
-  humVal = map(analogRead(humSensor),1700,4095,100,0);
-  waterLvl = map(analogRead(waterSensor),0,4095,0,100);
+  humVal = map(analogRead(humSensor), 1700, 4095, 100, 0);
+  waterLvl = map(analogRead(waterSensor), 0, 4095, 0, 100);
   // Print to serial port
   Serial.print("Temperature:");
   Serial.print(tempVal);
@@ -77,18 +78,18 @@ void loop(){
   Serial.print(waterLvl);
   Serial.print(",");
   Serial.println();
-  
 
   //Send to server via http post command
-  if(WiFi.status() == WL_CONNECTED) {
-      digitalWrite(led1, HIGH);
+  if (WiFi.status() == WL_CONNECTED)
+  {
+    digitalWrite(led1, HIGH);
     //begin conection to server
     HTTPClient http;
     http.begin(server);
-    
+
     //specify content type
     http.addHeader("Content-Type", "application/json");
-    
+
     //data send
     int httpResCode = http.POST("{\"temp\":\"" + String(tempVal) + "\",\"hum\":\"" + String(humVal) + "\",\"lvl\":\"" + String(waterLvl) + "\"}");
 
@@ -97,7 +98,8 @@ void loop(){
     //Serial.println(httpResCode);
 
     //check water level, turn on state LED and send message to server
-    if(waterLvl <= 10){
+    if (waterLvl <= 10)
+    {
       digitalWrite(led3, HIGH);
       bEnoughWater = false;
       http.begin(server + "msg");
@@ -106,7 +108,8 @@ void loop(){
     }
 
     //check water level, turn off state LED and send message to server
-    if(waterLvl >= 10){
+    if (waterLvl >= 10)
+    {
       digitalWrite(led3, LOW);
       bEnoughWater = true;
       http.begin(server + "msg");
@@ -115,11 +118,12 @@ void loop(){
     }
 
     //turn on pump and state led's for watering
-    if(((humVal <= 25 && tempVal >= 15)||(tempVal >= 25 && humVal <= 40)||(tempVal >= 35)) && (bEnoughWater == true)){
+    if (((humVal <= 25 && tempVal >= 15) || (tempVal >= 25 && humVal <= 40) || (tempVal >= 35)) && (bEnoughWater == true))
+    {
       digitalWrite(pumpPin, HIGH);
       digitalWrite(led2, HIGH);
       Serial.println("watering.....");
-      
+
       delay(2000);
 
       digitalWrite(pumpPin, LOW);
@@ -130,36 +134,12 @@ void loop(){
     //release resources
     http.end();
   }
-  else {
-    Serial.println("not connected");
-
-    //check water level, turn on state LED and send message to server
-    if(waterLvl <= 10){
-      digitalWrite(led3, HIGH);
-      bEnoughWater = false;
-    }
-
-    //check water level, turn off state LED and send message to server
-    if(waterLvl >= 10){
-      digitalWrite(led3, LOW);
-      bEnoughWater = true;
-    }
-
-    //turn on pump and state led's for watering
-    if(((humVal <= 25 && tempVal >= 15)||(tempVal >= 25 && humVal <= 40)||(tempVal >= 35)) && (bEnoughWater == true)){
-      digitalWrite(pumpPin, HIGH);
-      digitalWrite(led2, HIGH);
-
-      delay(2000);
-
-      digitalWrite(pumpPin, LOW);
-      digitalWrite(led2, LOW);
-
-    }
-
+  else
+  {
+    WiFi.begin(ssid, password);
   }
-
-  delay(500);
-  
+  int seconds = 5;
+  int factor = 1000000;
+  esp_sleep_enable_timer_wakeup(seconds*factor);
+  esp_deep_sleep_start();
 }
- 
