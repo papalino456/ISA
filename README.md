@@ -6,5 +6,5 @@ An automatic personal/lab botany greenhouse, that implements features of artific
 - Compile model into TF lite and ESP act based on data
 - :heavy_check_mark: Send data to webserver via Wi-Fi (C++)
 - :heavy_check_mark: Show data in webpage (nodeJs)
-- UI/UX in app or webpage (React/React Native + nodeJs)
-- Optimize energy consumtion and polish UI
+- Actually good UI in app or webpage (React/React Native + nodeJs)
+- :heavy_check_mark: Optimize energy consumtion
