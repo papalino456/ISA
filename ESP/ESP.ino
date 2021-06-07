@@ -60,6 +60,7 @@ void setup()
 
 void loop()
 {
+  Serial.println("Real shit");
   // Get temperature values
   temperature.requestTemperatures();
   tempVal = temperature.getTempCByIndex(0);
@@ -138,8 +139,9 @@ void loop()
   {
     WiFi.begin(ssid, password);
   }
-  int seconds = 5;
-  int factor = 1000000;
+  double seconds = 3600;
+  double factor = 1000000;
+  Serial.println("I sleep");
   esp_sleep_enable_timer_wakeup(seconds*factor);
   esp_deep_sleep_start();
 }
