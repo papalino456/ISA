@@ -51,8 +51,7 @@
         };
         xhttp3.open("GET", "/msg", true);
         xhttp3.send();
-    },1000);
-    setInterval(function() {
+
         //weather
         var xhttp4 = new XMLHttpRequest();
         xhttp4.onreadystatechange = function() {
@@ -66,7 +65,8 @@
         var APIkey = "72b9eb3bfe73b63697caed06c9f924f8"
         xhttp4.open("GET", `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,daily,alerts&appid=${APIkey}&units=metric`, true);
         xhttp4.send();
-    },5000)
+    },5000);
+
     </script>
 
 
