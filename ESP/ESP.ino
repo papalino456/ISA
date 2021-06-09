@@ -138,13 +138,13 @@ void loop()
     //release resources
     http.end();
   }
-  
+
   else
   {
     WiFi.begin(ssid, password);
   }
 
-  double seconds = 3600;
+  double seconds = 600;
   double factor = 1000000;
   if(digitalRead(modeSwitch) == HIGH)
   {
