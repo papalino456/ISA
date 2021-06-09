@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ISA dasboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
 </head>
 <body style="background-image:url(blurry-gradient-haikei.svg);background-repeat: no-repeat;background-size:cover;">
     <h1 class="Front" style="text-align: center; color: white; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-size: 72px;">ISA</h1>
@@ -16,90 +18,5 @@
     <h3 class="stateMsg", id="stateMsg"></h3>
     <h1 class="weather", id="weather"></h1>
 
-    <script>
-        setInterval(function() {
-
-        console.log("button clicked");
-        //repeat for more data changing
-        //temperature
-        /*var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("title").innerText = JSON.parse(this.responseText).temp;
-            }   
-        };
-        xhttp.open("GET", "/data", true);
-        xhttp.send();*/
-        //up to here
-
-        //humidity
-        var xhttp2 = new XMLHttpRequest();
-        xhttp2.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("title2").innerText = JSON.parse(this.responseText).hum;
-            }   
-        };
-        xhttp2.open("GET", "/data", true);
-        xhttp2.send();
-
-        //water level
-        var xhttp3 = new XMLHttpRequest();
-        xhttp3.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("stateMsg").innerText = JSON.parse(this.responseText).msg;
-            }   
-        };
-        xhttp3.open("GET", "/msg", true);
-        xhttp3.send();
-
-        //weather
-        var xhttp4 = new XMLHttpRequest();
-        xhttp4.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("weather").innerText = JSON.parse(this.responseText).current.weather[0].main;
-                console.log(this.responseText).current.weather[0].main;
-            } 
-        };
-        var lat = 19.48;
-        var lon = -99.22;
-        var APIkey = "72b9eb3bfe73b63697caed06c9f924f8"
-        xhttp4.open("GET", `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,daily,alerts&appid=${APIkey}&units=metric`, true);
-        xhttp4.send();
-    },5000);
-
-    </script>
-
-
-    <style>
-        .body{
-            background-image:url("blurry-gradient-haikei.png");
-            font-family: sans-serif;
-        }
-        .demo{
-            margin: 0;
-            position: absolute;
-            width: 250px;
-            height: 250px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-image: url("IMG_0534.png");
-            background-repeat: no-repeat;
-            background-size:cover;
-            background-position: 50%;
-            border-radius: 10%;
-            text-align: center;
-            align-items: center;
-            font-family: sans-serif;
-        }
-        .stateMsg{
-            color:blue;
-            margin: 0;
-            position: absolute;
-            top: 75%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-    </style>
 </body>
 </html>

@@ -1,0 +1,29 @@
+.body{
+    background-image:url("blurry-gradient-haikei.png");
+    font-family: sans-serif;
+}
+.demo{
+    margin: 0;
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-image: url("IMG_0534.png");
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position: 50%;
+    border-radius: 10%;
+    text-align: center;
+    align-items: center;
+    font-family: sans-serif;
+}
+.stateMsg{
+    color:blue;
+    margin: 0;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
