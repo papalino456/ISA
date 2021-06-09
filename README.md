@@ -8,3 +8,5 @@ An automatic personal/lab botany greenhouse, that implements features of artific
 - :heavy_check_mark: Show data in webpage (nodeJs)
 - Actually good UI in app or webpage (React/React Native + nodeJs)
 - :heavy_check_mark: Optimize energy consumtion
+- :heavy_check_mark:Get weather data from API
+- Display weather data in a good way (changing icon for each weather type)
