@@ -7,8 +7,12 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
 </head>
-<body style="background-image:url(blurry-gradient-haikei.svg);background-repeat: no-repeat;background-size:cover;">
-    <h1 class="Front" style="text-align: center; color: white; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-size: 72px;">ISA</h1>
+<body class="bg">
+    <div class="weatherdiv">
+        <img class="cloud" src="cloudy.svg">
+        <h1 class="weather", id="weather">
+    </div>
+    <h1 class="Front">ISA</h1>
     <div class="demo">
         <h2>Temperature</h2>
         <h1 id="title">19°</h1>
@@ -16,7 +20,5 @@
         <h1 id="title2">Humidity</h1>
     </div>
     <h3 class="stateMsg", id="stateMsg"></h3>
-    <h1 class="weather", id="weather"></h1>
-
 </body>
 </html>
