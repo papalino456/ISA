@@ -11,12 +11,14 @@ const int led1 = 25;
 const int led2 = 26;
 const int led3 = 27;
 const int pumpPin = 14;
+const int modeSwitch = 12;
 
 //variables setup
 float tempVal;
 float humVal;
 float waterLvl;
 bool bEnoughWater;
+bool sleepMode;
 
 //connection variables
 const char *ssid = "HALL9000";
@@ -37,6 +39,7 @@ void setup()
   pinMode(humSensor, INPUT);
   pinMode(tempSensor, INPUT);
   pinMode(waterSensor, INPUT);
+  pinmMode(modeSwitch, INPUT)
 
   //actuator setup
   pinMode(led1, OUTPUT);
@@ -135,13 +138,18 @@ void loop()
     //release resources
     http.end();
   }
+  
   else
   {
     WiFi.begin(ssid, password);
   }
+
   double seconds = 3600;
   double factor = 1000000;
-  Serial.println("I sleep");
-  esp_sleep_enable_timer_wakeup(seconds*factor);
-  esp_deep_sleep_start();
+  if(digitalRead(modeSwitch) == HIGH)
+  {
+    Serial.println("I sleep");
+    esp_sleep_enable_timer_wakeup(seconds*factor);
+    esp_deep_sleep_start();
+  }
 }
