@@ -1,3 +1,21 @@
+@font-face {
+    font-family: "Quantum";
+    src: url('Fonts/QuantumRegular.eot'); /* IE9 Compat Modes */
+    src: url('Fonts/QuantumRegular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('Fonts/QuantumRegular.woff') format('woff'), /* Modern Browsers */
+         url('Fonts/QuantumRegular.ttf')  format('truetype'), /* Safari, Android, iOS */
+         url('Fonts/QuantumRegular.svg#svgFontName') format('svg'); /* Legacy iOS */
+}
+
+@font-face {
+    font-family: "Azonix";
+    src: url('Fonts/AzonixRegular.eot'); /* IE9 Compat Modes */
+    src: url('Fonts/AzonixRegular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('Fonts/AzonixRegular.woff') format('woff'), /* Modern Browsers */
+         url('Fonts/AzonixRegular.ttf')  format('truetype'), /* Safari, Android, iOS */
+         url('Fonts/AzonixRegular.svg#svgFontName') format('svg'); /* Legacy iOS */
+}
+
 .bg{
     background-image:url("blurry-gradient-haikei.svg");
     background-repeat: no-repeat;
@@ -21,13 +39,14 @@
     border: 0px; 
     text-align: center;
     color: white;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', sans-serif;
+    font-family: "Azonix";
     font-size: 24px;
 }
 .Front{
     text-align: center;
     color: white;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', sans-serif;
+    font-family: "Azonix";
+    font-weight:550;
     font-size: 72px;
 }
 .demo{
@@ -45,9 +64,10 @@
     border-radius: 10%;
     text-align: center;
     align-items: center;
-    font-family: sans-serif;
+    font-family: "Azonix";
 }
 .stateMsg{
+    font-family: "Azonix";
     color:blue;
     margin: 0;
     position: absolute;
