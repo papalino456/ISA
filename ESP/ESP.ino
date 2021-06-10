@@ -39,7 +39,7 @@ void setup()
   pinMode(humSensor, INPUT);
   pinMode(tempSensor, INPUT);
   pinMode(waterSensor, INPUT);
-  pinmMode(modeSwitch, INPUT)
+  pinMode(modeSwitch, INPUT);
 
   //actuator setup
   pinMode(led1, OUTPUT);
