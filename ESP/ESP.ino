@@ -2,6 +2,9 @@
 #include <DallasTemperature.h>
 #include <OneWire.h>
 #include <WiFi.h>
+#include <EEPROM.h>
+
+#define EEPROM_SIZE 1
 
 //pin variables
 const int humSensor = 35;
@@ -34,7 +37,6 @@ DallasTemperature temperature(&sensor);
 
 void setup()
 {
-
   //sensor setup
   pinMode(humSensor, INPUT);
   pinMode(tempSensor, INPUT);
@@ -59,6 +61,14 @@ void setup()
   }
   Serial.print("connected!, ip:");
   Serial.println(WiFi.localIP());
+  int code = EEPROM.read(0);
+  Serial.println(code);
+  if(code == 0)
+  {
+    code = random(1,100);
+  }
+   EEPROM.write(0, code);
+   EEPROM.commit();
 }
 
 void loop()
